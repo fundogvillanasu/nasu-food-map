@@ -489,7 +489,7 @@ STORES.forEach(s => {
         🚗 駐車場 ${s.parking}<br>
         📞 ${s.tel}
       </div>
-      <a class="gmaps-btn" href="https://maps.google.com/?q=${s.lat},${s.lng}" target="_blank" rel="noopener">
+      <a class="gmaps-btn" href="https://maps.google.com/?q=${encodeURIComponent(s.name + ' ' + s.address)}" target="_blank" rel="noopener">
         🗺️ Googleマップで開く
       </a>
     `);
