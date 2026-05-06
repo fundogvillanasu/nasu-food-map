@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>那須高原周辺 スーパーマーケットマップ</title>
+  <title>那須高原周辺 スーパー・道の駅マップ</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
@@ -213,8 +213,8 @@
 
 <!-- ─── HEADER ──────────────────────────────── -->
 <header class="header">
-  <h1>🛒 那須高原周辺 スーパーマーケットマップ</h1>
-  <p>那須高原周辺エリア ｜ 全19店舗</p>
+  <h1>🛒 那須高原周辺 スーパー・道の駅マップ</h1>
+  <p>那須高原周辺エリア ｜ 全19店舗（道の駅含む）</p>
 </header>
 
 <div class="main-layout">
@@ -240,6 +240,48 @@
 
 <script>
 const STORES = [
+  {
+    id: 20,
+    name: '道の駅 那須高原友愛の森',
+    chain: '道の駅',
+    chainColor: '#5d8a48',
+    emoji: '🌾',
+    address: '那須郡那須町大字高久甲3986-3',
+    hours: '9:00〜17:00（施設により異なる）',
+    parking: '多数完備',
+    tel: '0287-78-2150',
+    dist: '那須高原エリア',
+    desc: '那須高原の玄関口にある道の駅。那須の新鮮野菜・地元農産物・那須土産が揃うショップと食事処を完備。',
+    lat: 37.007800, lng: 140.047500,
+  },
+  {
+    id: 21,
+    name: '道の駅 東山道伊王野',
+    chain: '道の駅',
+    chainColor: '#5d8a48',
+    emoji: '🌾',
+    address: '那須郡那須町伊王野497',
+    hours: '9:00〜18:00（季節により異なる）',
+    parking: '完備',
+    tel: '0287-87-0808',
+    dist: '約13km',
+    desc: '那須東部・伊王野エリアの道の駅。水車そばが有名で、地元産野菜・農産物の直売所も充実。',
+    lat: 37.053100, lng: 140.078600,
+  },
+  {
+    id: 22,
+    name: '道の駅 明治の森・黒磯',
+    chain: '道の駅',
+    chainColor: '#5d8a48',
+    emoji: '🌾',
+    address: '那須塩原市青木27',
+    hours: '9:00〜18:00',
+    parking: '完備',
+    tel: '0287-62-6760',
+    dist: '約9km',
+    desc: '旧青木家那須別邸（明治の洋館）に隣接する道の駅。地元那須の農産物直売・地場産品が揃います。',
+    lat: 36.973400, lng: 140.027500,
+  },
   {
     id: 1,
     name: 'ダイユー那須高原店',
@@ -358,19 +400,6 @@ const STORES = [
     lat: 36.973426, lng: 140.050068,
   },
   {
-    id: 13,
-    name: '業務スーパー黒磯店',
-    chain: '業務スーパー',
-    chainColor: '#b35e00',
-    address: '那須塩原市豊浦町100-497',
-    hours: '9:00〜20:00',
-    parking: '有',
-    tel: '0287-73-8441',
-    dist: '約9km',
-    desc: '黒磯エリアの業務スーパー。大容量・低価格の食材が豊富で、まとめ買いや冷凍食品の調達に最適。',
-    lat: 36.966681, lng: 140.041244,
-  },
-  {
     id: 14,
     name: 'ヨークベニマル黒磯店',
     chain: 'ヨークベニマル',
@@ -436,19 +465,6 @@ const STORES = [
     lat: 36.885849, lng: 139.971626,
   },
   {
-    id: 7,
-    name: '業務スーパー西那須野店',
-    chain: '業務スーパー',
-    chainColor: '#b35e00',
-    address: '那須塩原市石林318-2',
-    hours: '―',
-    parking: '―',
-    tel: '0287-37-5001',
-    dist: '約19km',
-    desc: '大容量・低価格が魅力の業務スーパー。食材のまとめ買いや冷凍食品の調達に最適。',
-    lat: 36.879052, lng: 140.003134,
-  },
-  {
     id: 8,
     name: 'ベイシア那須塩原店',
     chain: 'ベイシア',
@@ -486,13 +502,13 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 /* レイアウト確定後にマップサイズを再計算 */
 window.addEventListener('load', () => map.invalidateSize());
 
-function makeIcon(color) {
+function makeIcon(color, emoji = '🛒') {
   return L.divIcon({
     html: `<div style="
       background:${color};color:#fff;border-radius:50%;
       width:32px;height:32px;display:flex;align-items:center;justify-content:center;
       font-size:15px;border:2.5px solid #fff;box-shadow:0 2px 7px rgba(0,0,0,.3);
-    ">🛒</div>`,
+    ">${emoji}</div>`,
     className: '',
     iconSize: [32, 32],
     iconAnchor: [16, 16],
@@ -501,7 +517,7 @@ function makeIcon(color) {
 
 const markerMap = {};
 STORES.forEach(s => {
-  const m = L.marker([s.lat, s.lng], { icon: makeIcon(s.chainColor) })
+  const m = L.marker([s.lat, s.lng], { icon: makeIcon(s.chainColor, s.emoji || '🛒') })
     .addTo(map)
     .bindPopup(`
       <div class="popup-title">${s.name}</div>
