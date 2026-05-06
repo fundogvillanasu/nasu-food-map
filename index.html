@@ -143,8 +143,22 @@
 
     /* ── MAP POPUP ────────────────────────────── */
     .leaflet-popup-content-wrapper { border-radius: 10px; font-family: inherit; }
+    .leaflet-popup-content { min-width: 200px; }
     .popup-title { font-weight: 700; font-size: .95rem; margin-bottom: 4px; }
-    .popup-sub   { font-size: .78rem; color: #555; line-height: 1.6; }
+    .popup-sub   { font-size: .78rem; color: #555; line-height: 1.6; margin-bottom: 10px; }
+    .gmaps-btn {
+      display: block;
+      background: #4285f4;
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      font-size: .88rem;
+      font-weight: 700;
+      padding: 11px 14px;
+      border-radius: 8px;
+      letter-spacing: .02em;
+    }
+    .gmaps-btn:hover { background: #3367d6; }
 
     /* ── FOOTER ───────────────────────────────── */
     footer {
@@ -475,6 +489,9 @@ STORES.forEach(s => {
         🚗 駐車場 ${s.parking}<br>
         📞 ${s.tel}
       </div>
+      <a class="gmaps-btn" href="https://maps.google.com/?q=${s.lat},${s.lng}" target="_blank" rel="noopener">
+        🗺️ Googleマップで開く
+      </a>
     `);
   markerMap[s.id] = m;
 });
